@@ -1,0 +1,106 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    /*background-color: #323c66;*/
+    color: #e6ffff;
+    overflow: auto;
+    text-align: center;
+}
+
+#grad {
+    background-image: linear-gradient(#323c66, white);
+}
+
+.container h1 {
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    color: #DDCCEE;
+    margin-top: 80px;
+}
+
+.container form {
+    margin: 20px;
+}
+
+.container input {
+    width: 350px;
+    height: 15px;
+    font-size: 15px;
+    margin: 2px;
+    padding: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.container button {
+    width: 70px;
+    height: 30px;
+    color: white;
+    background-color: steelblue;
+    margin: 3px;
+}
+
+.container p {
+    margin: 100px;
+}
+
+.message {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #ff9999;
+}
+
+.box {
+    float: left;
+    color: black;
+    margin: 1%;
+    height: 370px;
+    width: 300px;
+    /*min-width: 280px;
+    max-width: 280px;
+    min-height: 400px;
+    max-height: 400px;*/
+    background-color: white;
+    overflow-wrap: break-spaces;
+}
+
+.boardgamebliss {
+    color: white;
+    background-color: #2F92BE;
+}
+
+.games401 {
+    color: white;
+    background-color: #95B874;
+}
+
+.meeplemart {
+    color: white;
+    background-color: #C7121D;
+}
+
+.legendswarehouse {
+    color: white;
+    background-color: #7C7C7C;
+}
+
+.woodforsheep {
+    color: white;
+    background-color: #B5E36D;
+}
+
+.lvlupgames {
+    color: #FFDB40;
+    background-color: black;
+}
+
+.store_name {
+    align-self: center;
+    font-size: 30px;
+    margin: 1%;
+}
