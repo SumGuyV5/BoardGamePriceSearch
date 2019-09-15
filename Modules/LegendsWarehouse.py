@@ -1,78 +1,37 @@
-import lxml.html
-import requests
-from bs4 import BeautifulSoup
-
-from Modules.BuildTag import BuildTag
+from Modules.WebsiteSearch import WebsiteSearch
 
 
-class LegendsWarehouse:
-    def __init__(self, search):
-        self.search_name = search
+class LegendsWarehouse(WebsiteSearch):
+    def __init__(self, search_text, fuzzy=False):
+        super(LegendsWarehouse, self).__init__(search_text, 'Legends Warehouse', 'https://legendswarehouse.ca',
+                                               'legendswarehouse', fuzzy)
 
     def get_img(self, html):
-        link_img = 'https:'
-        link_img += html.find('img', attrs={'class': 'featured-image'})['src']
-        #link_img = link_img.replace('60x', '270x')
+        link_img = super(LegendsWarehouse, self).get_img(html, 'featured-image')
         return link_img
 
     def get_price(self, html):
-        price = html.find('span', attrs={'class': 'price'})
-        if price is None:
-            price = html.find('span', attrs={'class': 'price-sale'})
-            if price is None:
-                price = html.find('span', attrs={'class': 'sold-out'})
-        return price.contents[0]
+        price = super(LegendsWarehouse, self).get_price(html, 'price')
+        price_sale = super(LegendsWarehouse, self).get_price(html, 'price-sale')
+        sold_out = super(LegendsWarehouse, self).get_price(html, 'sold-out')
+        if not price:
+            if not price_sale:
+                return sold_out
+            else:
+                return price_sale
+        return price
 
     def get_text(self, html):
         h5 = html.find('h5', attrs={'class': 'product-name'})
-        text = h5.find('a')
-        link = "https://legendswarehouse.ca"
-        link += text['href']
-
-        return link, text.contents[0]
+        return super(LegendsWarehouse, self).get_text(h5, '')
 
     def search(self):
-        session = requests.session()
+        return super(LegendsWarehouse, self).search('q', '/search')
 
-        legendswarehouse = session.get(f'https://legendswarehouse.ca')
-        legendswarehouse_html = lxml.html.fromstring(legendswarehouse.text)
-        hidden_inputs = legendswarehouse_html.xpath(r'//form//input[@type="hidden"]')
-        form = {x.attrib["name"]: x.attrib["value"] for x in hidden_inputs}
-
-        form['q'] = self.search_name
-        search_response = session.post(f'https://legendswarehouse.ca/search', data=form)
-
-        return search_response.text
-
-    def return_results(self, count):
-        legendswarehouse = BeautifulSoup('<div class="legendswarehouse"></div>', 'html.parser')
-
-        search_response = self.search()
-
-        if self.search_name in search_response:
-            soup = BeautifulSoup(search_response, 'html.parser')
-            products = soup.find('div', attrs={'class': 'cata-product'})
-            boxes = products.find_all('div', attrs={'class': 'product-grid-item'})
-
-            for idx, box in enumerate(boxes):
-                img = self.get_img(box)
-                price = self.get_price(box)
-                text = self.get_text(box)
-
-                if text[1].lower() != self.search_name.lower():
-                    if text[1].lower().replace(" ", "") != self.search_name.lower().replace(" ", ""):
-                        continue
-
-                tg = BuildTag(img, price, text[1], text[0], "Legends Warehouse", "legendswarehouse")
-
-                tag = tg.build_div()
-                legendswarehouse.div.append(tag)
-                if (idx + 1) == count:
-                    break
-
-        return legendswarehouse
+    def results(self, count):
+        return super(LegendsWarehouse, self).results('cata-product', 'product-grid-item', count)
 
 
 if __name__ == "__main__":
-    bliss = LegendsWarehouse("Small World")
-    print(bliss.return_results(1))
+    bliss = LegendsWarehouse("Starfinder: Combat Pad")
+    print(bliss.results(4))

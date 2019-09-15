@@ -10,6 +10,6 @@ def search_results(search):
     searches = [BoardGameBliss(search), Games401(search), MeepleMart(search), LegendsWarehouse(search),
                 WoodForSheep(search), LvlupGames(search)]
     for search in searches:
-        rtn += str(search.return_results(4))
+        rtn += str(search.results(4))
     return rtn
 

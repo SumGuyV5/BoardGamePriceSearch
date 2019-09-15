@@ -49,10 +49,14 @@ html, body {
     margin: 100px;
 }
 
-.message {
+.message .row {
     font-family: Arial, sans-serif;
     font-size: 15px;
     color: #ff9999;
+    /* This line will center div tag */
+    margin: 0 auto;
+    /* Set width of the div to 500 pixels */
+    width: 80%;
 }
 
 .box {
@@ -103,4 +107,13 @@ html, body {
     align-self: center;
     font-size: 30px;
     margin: 1%;
+}
+
+.store_name a {
+    text-decoration: none;
+}
+
+.image img{
+  max-height: 270px;
+  max-width: 270px;
 }

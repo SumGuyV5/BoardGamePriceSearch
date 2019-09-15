@@ -1,84 +1,39 @@
-import lxml.html
-import requests
-from bs4 import BeautifulSoup
-
-from Modules.BuildTag import BuildTag
+from Modules.WebsiteSearch import WebsiteSearch
 
 
-class WoodForSheep:
-    def __init__(self, search):
-        self.search_name = search
+class WoodForSheep(WebsiteSearch):
+    def __init__(self, search_test, fuzzy=False):
+        super(WoodForSheep, self).__init__(search_test, 'Wood for Sheep', 'https://www.woodforsheep.ca',
+                                           'woodforsheep', fuzzy)
 
     def get_img(self, html):
         div = html.find('div', attrs={'class': 'product-image'})
-        link_img = 'https:'
-        link_img += div.find('img')['src']
-        #link_img = link_img.replace('60x.jpg', '270x.jpg')
+        if div is None:
+            return ""
+        link_img = super(WoodForSheep, self).get_img(div)
         return link_img
 
     def get_price(self, html):
-        price = html.find('span', attrs={'class': 'CategoryProductPrice'})
-        if price is None:
-            return ""
-        return price.contents[0]
+        price = super(WoodForSheep, self).get_price(html, 'CategoryProductPrice')
+        if not price:
+            return ["Null"]
+        return price
 
     def get_text(self, html):
         div = html.find('div', attrs={'class': 'product-info'})
-        text = div.find('a')
-        link = "https://www.woodforsheep.ca"
-        link += text['href']
-
-        return link, text.contents[0]
+        if div is None:
+            return "", "No Item"
+        return super(WoodForSheep, self).get_text(div)
 
     def search(self):
-        session = requests.session()
+        return super(WoodForSheep, self).search('q', '/search')
 
-        woodforsheep = session.get(f'https://www.woodforsheep.ca')
-        woodforsheep_html = lxml.html.fromstring(woodforsheep.text)
-        hidden_inputs = woodforsheep_html.xpath(r'//form//input[@type="hidden"]')
-        form = {}
-        for x in hidden_inputs:
-            value = ""
-            try:
-                value = x.attrib["value"]
-            except KeyError:
-                pass
-            form[x.attrib["name"]] = value
-
-
-        form['q'] = self.search_name
-        search_response = session.post(f'https://www.woodforsheep.ca/search', data=form)
-
-        return search_response.text
-
-    def return_results(self, count):
-        woodforsheep = BeautifulSoup('<div class="woodforsheep"></div>', 'html.parser')
-
-        search_response = self.search()
-
-        if self.search_name in search_response:
-            soup = BeautifulSoup(search_response, 'html.parser')
-            products = soup.find('table', attrs={'id': 'collection'})
-            boxes = products.find_all('tr')
-
-            for idx, box in enumerate(boxes):
-                img = self.get_img(box)
-                price = self.get_price(box)
-                text = self.get_text(box)
-
-                if text[1].lower() != self.search_name.lower():
-                    continue
-
-                tg = BuildTag(img, price, text[1], text[0], "Wood for Sheep", "woodforsheep")
-
-                tag = tg.build_div()
-                woodforsheep.div.append(tag)
-                if (idx + 1) == count:
-                    break
-
-        return woodforsheep
+    def results(self, count):
+        """ Note we pass "woodforsheepfix" not because it is a class but so that the code can't find a div tag and will
+        fail to find a div tag and search for a tr tag"""
+        return super(WoodForSheep, self).results('span-17 last', 'woodforsheepfix', count)
 
 
 if __name__ == "__main__":
     bliss = WoodForSheep("Small World")
-    print(bliss.return_results(1))
+    print(bliss.results(4))
