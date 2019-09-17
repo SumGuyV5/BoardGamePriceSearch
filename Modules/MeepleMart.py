@@ -1,8 +1,3 @@
-import lxml.html
-import requests
-from bs4 import BeautifulSoup
-
-from Modules.BuildTag import BuildTag
 from Modules.WebsiteSearch import WebsiteSearch
 
 
@@ -28,7 +23,7 @@ class MeepleMart(WebsiteSearch):
     def search(self):
         return super(MeepleMart, self).search('SearchTerms', '/store/Search.aspx')
 
-    def results(self, count): # dlProducts is for a table tag
+    def results(self, count):  # dlProducts is for a table tag
         return super(MeepleMart, self).results('dlProducts', 'CategoryItem', count)
 
 

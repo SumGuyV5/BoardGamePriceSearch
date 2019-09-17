@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board Game Price Search</title>
     <link href="../static/main.css" rel="stylesheet">
 </head>
 <body>
@@ -10,7 +10,10 @@
         <h1>Board Game Price Search</h1>
         <h3>Please fill out the search field with the game you're looking to buy.</h3>
         <form action="{{ url_for('search') }}" method="POST">
-            <input title="The board game you're looking for." placeholder="your board game here..." name="search_name" required>
+            <label for="search" class="visuallyhidden">
+                <input id="search" title="The board game you're looking for." placeholder="your board game here..." name="search_name" required>
+                <span>Search Box</span>
+            </label>
             <button type="submit">Search</button>
         </form>
         <div class="message">

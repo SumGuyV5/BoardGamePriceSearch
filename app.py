@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-from Modules.GameSeach import search_results
+from Modules.GameSearch import search_results
 
 app = Flask(__name__)
 

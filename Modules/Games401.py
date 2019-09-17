@@ -23,7 +23,6 @@ class Games401(WebsiteSearch):
         return super(Games401, self).results('products products-grid search-grid', 'box product', count)
 
 
-
 if __name__ == "__main__":
     games401 = Games401("Viticulture Moor")
     print(games401.results(1))

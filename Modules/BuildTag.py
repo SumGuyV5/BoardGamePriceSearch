@@ -45,7 +45,4 @@ class BuildTag:
         self.build_name()
         self.tag.div.append(self.a)
         self.build_price()
-
-
-
         return self.tag

@@ -21,7 +21,7 @@ class WebsiteSearch:
         link_img += html.find('img', attrs={'class': html_class})[src]
         return link_img
 
-    def get_price(self, html, html_class):
+    def get_price(self, html, html_class=''):
         span_tags = html.find_all('span', attrs={'span', html_class})
         normal_price = []
         for span_tag in span_tags:
@@ -35,7 +35,7 @@ class WebsiteSearch:
 
         return link, text.contents[0]
 
-    def inital_visit(self):
+    def initial_visit(self):
         website_session = self.session.get(self.website_address)
         website_html = lxml.html.fromstring(website_session.text)
         hidden_inputs = website_html.xpath(r'//form//input[@type="hidden"]')
@@ -50,8 +50,8 @@ class WebsiteSearch:
 
         return form
 
-    def search(self, key, search_page):
-        form = self.inital_visit()
+    def search(self, key='q', search_page='/search'):
+        form = self.initial_visit()
         form[key] = self.search_text
         return self.session.post(f'{self.website_address}{search_page}', data=form).text
 
@@ -88,7 +88,5 @@ class WebsiteSearch:
             for x in range(count - len(results_html.div)):
                 empty_div = BuildTag('', 'Null', 'No Item', '', self.store_name, self.div_class)
                 results_html.div.append(empty_div.build_div())
-
-
 
         return results_html
