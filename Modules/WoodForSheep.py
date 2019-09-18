@@ -35,5 +35,6 @@ class WoodForSheep(WebsiteSearch):
 
 
 if __name__ == "__main__":
-    bliss = WoodForSheep("Small World")
-    print(bliss.results(4))
+    sheep = WoodForSheep("Small World")
+    sheep.search()
+    print(sheep.results(4))

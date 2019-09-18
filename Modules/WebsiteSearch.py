@@ -1,5 +1,6 @@
 import lxml.html
-import requests
+#import requests
+from requests_futures.sessions import FuturesSession
 from bs4 import BeautifulSoup
 
 from Modules.BuildTag import BuildTag
@@ -14,7 +15,8 @@ class WebsiteSearch:
 
         self.div_class = div_class
 
-        self.session = requests.session()
+        self.session = FuturesSession() #requests.session()
+        self.website_session = self.session.get(self.website_address)
 
     def get_img(self, html, html_class='', src='src'):
         link_img = 'https:'
@@ -36,8 +38,9 @@ class WebsiteSearch:
         return link, text.contents[0]
 
     def initial_visit(self):
-        website_session = self.session.get(self.website_address)
-        website_html = lxml.html.fromstring(website_session.text)
+        #website_session = self.session.get(self.website_address)
+        response = self.website_session.result()
+        website_html = lxml.html.fromstring(response.content)
         hidden_inputs = website_html.xpath(r'//form//input[@type="hidden"]')
         form = {}
         for x in hidden_inputs:
@@ -53,12 +56,17 @@ class WebsiteSearch:
     def search(self, key='q', search_page='/search'):
         form = self.initial_visit()
         form[key] = self.search_text
-        return self.session.post(f'{self.website_address}{search_page}', data=form).text
+        self.website_session = self.session.post(f'{self.website_address}{search_page}', data=form)
+
+
+        #return self.session.post(f'{self.website_address}{search_page}', data=form).text
 
     def results(self, products_class, boxes_class, count):
-        results_html = BeautifulSoup(f'<div class="{self.div_class} row"></div>', 'html.parser')
+        # results_html = BeautifulSoup(f'<div class="{self.div_class} row"></div>', 'html.parser')
+        results_html = BeautifulSoup(f'<div class="row"></div>', 'html.parser')
 
-        search_response = self.search()
+        #search_response = self.search()
+        search_response = self.website_session.result().text
 
         if self.search_text in search_response:
             soup = BeautifulSoup(search_response, 'html.parser')

@@ -30,4 +30,5 @@ class BoardGameBliss(WebsiteSearch):
 
 if __name__ == "__main__":
     bliss = BoardGameBliss("Adventure Island")
+    bliss.search()
     print(bliss.results(1))

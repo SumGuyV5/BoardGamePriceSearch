@@ -29,4 +29,5 @@ class MeepleMart(WebsiteSearch):
 
 if __name__ == "__main__":
     mart = MeepleMart("Adventure Island")
+    mart.search()
     print(mart.results(3))

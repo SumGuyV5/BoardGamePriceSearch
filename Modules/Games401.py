@@ -25,4 +25,5 @@ class Games401(WebsiteSearch):
 
 if __name__ == "__main__":
     games401 = Games401("Viticulture Moor")
+    games401.search()
     print(games401.results(1))

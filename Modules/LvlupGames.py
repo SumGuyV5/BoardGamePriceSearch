@@ -27,4 +27,5 @@ class LvlupGames(WebsiteSearch):
 
 if __name__ == "__main__":
     lvlupgames = LvlupGames("Polyhero Dice")
+    lvlupgames.search()
     print(lvlupgames.results(1))

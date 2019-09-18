@@ -33,5 +33,6 @@ class LegendsWarehouse(WebsiteSearch):
 
 
 if __name__ == "__main__":
-    bliss = LegendsWarehouse("Starfinder: Combat Pad")
-    print(bliss.results(4))
+    legends = LegendsWarehouse("Starfinder: Combat Pad")
+    legends.search()
+    print(legends.results(4))
