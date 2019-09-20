@@ -1,4 +1,5 @@
 from Modules.WebsiteSearch import WebsiteSearch
+from bs4 import BeautifulSoup
 
 
 class MeepleMart(WebsiteSearch):
@@ -23,11 +24,12 @@ class MeepleMart(WebsiteSearch):
     def search(self):
         return super(MeepleMart, self).search('SearchTerms', '/store/Search.aspx')
 
-    def results(self, count):  # dlProducts is for a table tag
-        return super(MeepleMart, self).results('dlProducts', 'CategoryItem', count)
+    def results(self, count, results_html):  # dlProducts is for a table tag
+        return super(MeepleMart, self).results('dlProducts', 'CategoryItem', count, results_html)
 
 
 if __name__ == "__main__":
+    soup = BeautifulSoup('<div class="grid-container"></div>', "html.parser")
     mart = MeepleMart("Adventure Island")
     mart.search()
-    print(mart.results(3))
+    print(mart.results(3, soup))

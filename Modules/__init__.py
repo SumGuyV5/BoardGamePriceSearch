@@ -1,2 +1,2 @@
-__all__ = ['GameSearch.py', 'BuildTag', 'Games401', 'BoardGameBliss', 'LegendsWarehouse', 'LvlupGames', 'MeepleMart',
+__all__ = ['GameSearch', 'BuildTag', 'Games401', 'BoardGameBliss', 'LegendsWarehouse', 'LvlupGames', 'MeepleMart',
            'WoodForSheep']

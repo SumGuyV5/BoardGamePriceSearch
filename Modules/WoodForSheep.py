@@ -1,4 +1,5 @@
 from Modules.WebsiteSearch import WebsiteSearch
+from bs4 import BeautifulSoup
 
 
 class WoodForSheep(WebsiteSearch):
@@ -28,13 +29,14 @@ class WoodForSheep(WebsiteSearch):
     def search(self):
         return super(WoodForSheep, self).search('q', '/search')
 
-    def results(self, count):
+    def results(self, count, results_html):
         """ Note we pass "woodforsheepfix" not because it is a class but so that the code can't find a div tag and will
         fail to find a div tag and search for a tr tag"""
-        return super(WoodForSheep, self).results('span-17 last', 'woodforsheepfix', count)
+        return super(WoodForSheep, self).results('span-17 last', 'woodforsheepfix', count, results_html)
 
 
 if __name__ == "__main__":
+    soup = BeautifulSoup('<div class="grid-container"></div>', "html.parser")
     sheep = WoodForSheep("Small World")
     sheep.search()
-    print(sheep.results(4))
+    print(sheep.results(4, soup))

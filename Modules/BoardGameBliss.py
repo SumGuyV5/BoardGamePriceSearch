@@ -1,4 +1,5 @@
 from Modules.WebsiteSearch import WebsiteSearch
+from bs4 import BeautifulSoup
 
 
 class BoardGameBliss(WebsiteSearch):
@@ -22,13 +23,14 @@ class BoardGameBliss(WebsiteSearch):
     def search(self):
         return super(BoardGameBliss, self).search('q', '/search')
 
-    def results(self, count):
+    def results(self, count, results_html):
         return super(BoardGameBliss, self).results('product-list product-list--collection',
                                                    'product-item product-item--vertical 1/3--tablet 1/4--lap-and-up',
-                                                   count)
+                                                   count, results_html)
 
 
 if __name__ == "__main__":
+    soup = BeautifulSoup('<div class="grid-container"></div>', "html.parser")
     bliss = BoardGameBliss("Adventure Island")
     bliss.search()
-    print(bliss.results(1))
+    print(bliss.results(1, soup))

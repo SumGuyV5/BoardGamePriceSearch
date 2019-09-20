@@ -1,4 +1,5 @@
 from Modules.WebsiteSearch import WebsiteSearch
+from bs4 import BeautifulSoup
 
 
 class LvlupGames(WebsiteSearch):
@@ -21,11 +22,12 @@ class LvlupGames(WebsiteSearch):
     def search(self):
         return super(LvlupGames, self).search('q', '/search')
 
-    def results(self, count):
-        return super(LvlupGames, self).results('container', 'product-wrap', count)
+    def results(self, count, results_html):
+        return super(LvlupGames, self).results('container', 'product-wrap', count, results_html)
 
 
 if __name__ == "__main__":
+    soup = BeautifulSoup('<div class="grid-container"></div>', "html.parser")
     lvlupgames = LvlupGames("Polyhero Dice")
     lvlupgames.search()
-    print(lvlupgames.results(1))
+    print(lvlupgames.results(1, soup))

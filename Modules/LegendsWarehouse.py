@@ -1,4 +1,5 @@
 from Modules.WebsiteSearch import WebsiteSearch
+from bs4 import BeautifulSoup
 
 
 class LegendsWarehouse(WebsiteSearch):
@@ -28,11 +29,12 @@ class LegendsWarehouse(WebsiteSearch):
     def search(self):
         return super(LegendsWarehouse, self).search('q', '/search')
 
-    def results(self, count):
-        return super(LegendsWarehouse, self).results('cata-product', 'product-grid-item', count)
+    def results(self, count, results_html):
+        return super(LegendsWarehouse, self).results('cata-product', 'product-grid-item', count, results_html)
 
 
 if __name__ == "__main__":
+    soup = BeautifulSoup('<div class="grid-container"></div>', "html.parser")
     legends = LegendsWarehouse("Starfinder: Combat Pad")
     legends.search()
-    print(legends.results(4))
+    print(legends.results(4, soup))

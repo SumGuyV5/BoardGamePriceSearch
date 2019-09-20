@@ -56,9 +56,7 @@ class WebsiteSearch:
         form[key] = self.search_text
         self.website_session = self.session.post(f'{self.website_address}{search_page}', data=form)
 
-    def results(self, products_class, boxes_class, count):
-        results_html = BeautifulSoup(f'<div class="{self.div_class} row"></div>', 'html.parser')
-
+    def results(self, products_class, boxes_class, count, results_html):
         search_response = self.website_session.result().text
 
         if self.search_text in search_response:

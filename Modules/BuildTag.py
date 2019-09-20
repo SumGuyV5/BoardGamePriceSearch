@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class BuildTag:
     def __init__(self, img, price, text, text_link, store, store_class):
-        self.tag = BeautifulSoup('<div class="box"></div>', "html.parser")
+        self.tag = BeautifulSoup('<div class="grid-item"></div>', "html.parser")
         self.img = img
         self.price = price
         self.text = text
