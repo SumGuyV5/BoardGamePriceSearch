@@ -16,7 +16,5 @@ def search_results(search_for):
         store.search()
     for store in stores:
         html += str(store.results(4))
-    #for store in stores:
-    #    html += str(store.results(4))
     print(f"Search of Board Games took {time.time() - start_time} to run")
     return html

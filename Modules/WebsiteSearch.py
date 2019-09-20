@@ -1,5 +1,4 @@
 import lxml.html
-#import requests
 from requests_futures.sessions import FuturesSession
 from bs4 import BeautifulSoup
 
@@ -15,7 +14,7 @@ class WebsiteSearch:
 
         self.div_class = div_class
 
-        self.session = FuturesSession() #requests.session()
+        self.session = FuturesSession()
         self.website_session = self.session.get(self.website_address)
 
     def get_img(self, html, html_class='', src='src'):
@@ -38,7 +37,6 @@ class WebsiteSearch:
         return link, text.contents[0]
 
     def initial_visit(self):
-        #website_session = self.session.get(self.website_address)
         response = self.website_session.result()
         website_html = lxml.html.fromstring(response.content)
         hidden_inputs = website_html.xpath(r'//form//input[@type="hidden"]')
@@ -58,14 +56,9 @@ class WebsiteSearch:
         form[key] = self.search_text
         self.website_session = self.session.post(f'{self.website_address}{search_page}', data=form)
 
-
-        #return self.session.post(f'{self.website_address}{search_page}', data=form).text
-
     def results(self, products_class, boxes_class, count):
-        # results_html = BeautifulSoup(f'<div class="{self.div_class} row"></div>', 'html.parser')
-        results_html = BeautifulSoup(f'<div class="row"></div>', 'html.parser')
+        results_html = BeautifulSoup(f'<div class="{self.div_class} row"></div>', 'html.parser')
 
-        #search_response = self.search()
         search_response = self.website_session.result().text
 
         if self.search_text in search_response:
