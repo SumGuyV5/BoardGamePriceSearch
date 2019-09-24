@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 
 
 class BoardGameBliss(WebsiteSearch):
-    def __init__(self, search_text, fuzzy=False):
+    def __init__(self, search_text):
         super(BoardGameBliss, self).__init__(search_text, 'Board Game Bliss', 'https://boardgamebliss.com',
-                                             'boardgamebliss', fuzzy)
+                                             'boardgamebliss')
 
     def get_img(self, html):
         link_img = super(BoardGameBliss, self).get_img(html, 'product-item__primary-image')

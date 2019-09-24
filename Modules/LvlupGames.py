@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 
 class LvlupGames(WebsiteSearch):
-    def __init__(self, search_text, fuzzy=False):
-        super(LvlupGames, self).__init__(search_text, 'LVLUP Games', 'https://lvlupgames.ca', 'lvlupgames', fuzzy)
+    def __init__(self, search_text):
+        super(LvlupGames, self).__init__(search_text, 'LVLUP Games', 'https://lvlupgames.ca', 'lvlupgames')
 
     def get_img(self, html):
         link_img = super(LvlupGames, self).get_img(html, 'lazyload lazyload--fade-in primary', 'data-src')

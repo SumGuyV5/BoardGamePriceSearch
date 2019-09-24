@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 
 class Games401(WebsiteSearch):
-    def __init__(self, search_text, fuzzy=False):
-        super(Games401, self).__init__(search_text, '401 Games', 'https://store.401games.ca', 'games401', fuzzy)
+    def __init__(self, search_text):
+        super(Games401, self).__init__(search_text, '401 Games', 'https://store.401games.ca', 'games401')
 
     def get_img(self, html):
         link_img = super(Games401, self).get_img(html, 'card__image', 'data-src')

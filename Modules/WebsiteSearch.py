@@ -6,11 +6,10 @@ from Modules.BuildTag import BuildTag
 
 
 class WebsiteSearch:
-    def __init__(self, search_text, store_name, website_address, div_class, fuzzy=False):
+    def __init__(self, search_text, store_name, website_address, div_class):
         self.search_text = search_text
         self.store_name = store_name
         self.website_address = website_address
-        self.fuzzy = fuzzy
 
         self.div_class = div_class
 
@@ -19,20 +18,32 @@ class WebsiteSearch:
 
     def get_img(self, html, html_class='', src='src'):
         link_img = 'https:'
-        link_img += html.find('img', attrs={'class': html_class})[src]
+        try:
+            link_img += html.find('img', attrs={'class': html_class})[src]
+        except AttributeError:
+            link_img = ''
+
         return link_img
 
     def get_price(self, html, html_class=''):
-        span_tags = html.find_all('span', attrs={'span', html_class})
+        span_tags = ""
+        try:
+            span_tags = html.find_all('span', attrs={'span', html_class})
+        except AttributeError:
+            pass
         normal_price = []
         for span_tag in span_tags:
             normal_price.append(str(span_tag.contents[0]).strip())
+
         return normal_price
 
     def get_text(self, html, html_class=''):
-        text = html.find('a', attrs={'class': html_class})
-        link = self.website_address
-        link += text['href']
+        try:
+            text = html.find('a', attrs={'class': html_class})
+            link = self.website_address
+            link += text['href']
+        except AttributeError:
+            return '', 'No Item'
 
         return link, text.contents[0]
 
@@ -68,24 +79,22 @@ class WebsiteSearch:
             if not boxes and boxes_class == 'woodforsheepfix':
                 boxes = products.find_all('tr')
 
-            for idx, box in enumerate(boxes):
+            for box in boxes:
                 img = self.get_img(box)
                 prices = sorted(self.get_price(box))
                 text = self.get_text(box)
-
-                if self.fuzzy:
-                    if text[1].lower() != self.search_text.lower():
-                        continue
 
                 tg = BuildTag(img, prices[0], text[1], text[0], self.store_name, self.div_class)
 
                 tag = tg.build_div()
                 results_html.div.append(tag)
-                if (idx + 1) == count:
+                count -= 1
+                if count == 0:
                     break
 
-            for x in range(count - len(results_html.div)):
+            for x in range(count):
                 empty_div = BuildTag('', 'Null', 'No Item', '', self.store_name, self.div_class)
                 results_html.div.append(empty_div.build_div())
 
         return results_html
+

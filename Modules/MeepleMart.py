@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 
 class MeepleMart(WebsiteSearch):
-    def __init__(self, search_text, fuzzy=False):
-        super(MeepleMart, self).__init__(search_text, 'Meeple Mart', 'https://meeplemart.com', 'meeplemart', fuzzy)
+    def __init__(self, search_text):
+        super(MeepleMart, self).__init__(search_text, 'Meeple Mart', 'https://meeplemart.com', 'meeplemart')
 
     def get_img(self, html):
         link_img = super(MeepleMart, self).get_img(html, 'CategoryProductThumbnail')
@@ -18,7 +18,10 @@ class MeepleMart(WebsiteSearch):
         return price
 
     def get_text(self, html):
-        div = html.find('div', attrs={'class': 'CategoryItemName'})
+        try:
+            div = html.find('div', attrs={'class': 'CategoryItemName'})
+        except AttributeError:
+            div = None
         return super(MeepleMart, self).get_text(div, '')
 
     def search(self):

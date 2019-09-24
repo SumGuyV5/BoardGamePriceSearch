@@ -3,9 +3,8 @@ from bs4 import BeautifulSoup
 
 
 class WoodForSheep(WebsiteSearch):
-    def __init__(self, search_test, fuzzy=False):
-        super(WoodForSheep, self).__init__(search_test, 'Wood for Sheep', 'https://www.woodforsheep.ca',
-                                           'woodforsheep', fuzzy)
+    def __init__(self, search_test):
+        super(WoodForSheep, self).__init__(search_test, 'Wood for Sheep', 'https://www.woodforsheep.ca', 'woodforsheep')
 
     def get_img(self, html):
         div = html.find('div', attrs={'class': 'product-image'})

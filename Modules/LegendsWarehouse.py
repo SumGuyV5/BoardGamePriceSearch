@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 
 
 class LegendsWarehouse(WebsiteSearch):
-    def __init__(self, search_text, fuzzy=False):
+    def __init__(self, search_text):
         super(LegendsWarehouse, self).__init__(search_text, 'Legends Warehouse', 'https://legendswarehouse.ca',
-                                               'legendswarehouse', fuzzy)
+                                               'legendswarehouse')
 
     def get_img(self, html):
         link_img = super(LegendsWarehouse, self).get_img(html, 'featured-image')
