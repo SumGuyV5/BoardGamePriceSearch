@@ -80,9 +80,16 @@ class WebsiteSearch:
                 boxes = products.find_all('tr')
 
             for box in boxes:
-                img = self.get_img(box)
-                prices = sorted(self.get_price(box))
                 text = self.get_text(box)
+
+                if boxes_class == 'woodforsheepfix':
+                    response = self.session.get(text[0]).result()
+                    new_box = BeautifulSoup(response.text, 'html.parser')
+                    img = self.get_img(new_box, 'main-product-image')
+                    prices = sorted(self.get_price(new_box))
+                else:
+                    img = self.get_img(box)
+                    prices = sorted(self.get_price(box))
 
                 tg = BuildTag(img, prices[0], text[1], text[0], self.store_name, self.div_class)
 

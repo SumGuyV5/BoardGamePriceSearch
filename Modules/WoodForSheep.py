@@ -6,18 +6,23 @@ class WoodForSheep(WebsiteSearch):
     def __init__(self, search_test):
         super(WoodForSheep, self).__init__(search_test, 'Wood for Sheep', 'https://www.woodforsheep.ca', 'woodforsheep')
 
-    def get_img(self, html):
-        div = html.find('div', attrs={'class': 'product-image'})
+    def get_img(self, html, html_class='product-image'):
+        div = html.find('div', attrs={'class': html_class})
         if div is None:
-            return ""
+            div = html.find('div', attrs={'id': html_class})
+            if div is None:
+                return ""
+            else:
+                return super(WoodForSheep, self).get_img(div, 'reflect')
         link_img = super(WoodForSheep, self).get_img(div)
         return link_img
 
     def get_price(self, html):
-        price = super(WoodForSheep, self).get_price(html, 'CategoryProductPrice')
+        div = html.find('div', attrs={'class': 'price'})
+        price = div.find('span', attrs={'id': 'price-field'})
         if not price:
             return ["Null"]
-        return price
+        return [str(price.contents[0]).strip()]
 
     def get_text(self, html):
         div = html.find('div', attrs={'class': 'product-info'})
