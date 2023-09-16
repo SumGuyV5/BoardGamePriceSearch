@@ -91,6 +91,14 @@ class WebsiteSearch:
                     img = self.get_img(box)
                     prices = sorted(self.get_price(box))
 
+                if len(text) <= 0:
+                    prices.append('Empty')
+                if len(text) <= 1:
+                    prices.append('Empty')
+
+                if len(prices) <= 0:
+                    prices.append('Empty')
+
                 tg = BuildTag(img, prices[0], text[1], text[0], self.store_name, self.div_class)
 
                 tag = tg.build_div()
@@ -104,4 +112,3 @@ class WebsiteSearch:
                 results_html.div.append(empty_div.build_div())
 
         return results_html
-

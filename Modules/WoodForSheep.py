@@ -19,7 +19,9 @@ class WoodForSheep(WebsiteSearch):
 
     def get_price(self, html):
         div = html.find('div', attrs={'class': 'price'})
-        price = div.find('span', attrs={'id': 'price-field'})
+        price = None
+        if div is not None:
+            price = div.find('span', attrs={'id': 'price-field'})
         if not price:
             return ["Null"]
         return [str(price.contents[0]).strip()]

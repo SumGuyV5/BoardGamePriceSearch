@@ -7,7 +7,7 @@ class LvlupGames(WebsiteSearch):
         super(LvlupGames, self).__init__(search_text, 'LVLUP Games', 'https://lvlupgames.ca', 'lvlupgames')
 
     def get_img(self, html):
-        link_img = super(LvlupGames, self).get_img(html, 'lazyload lazyload--fade-in primary', 'data-src')
+        link_img = super(LvlupGames, self).get_img(html, 'productitem--image-primary', 'src')
         return link_img.replace('900x', '270x')
 
     def get_price(self, html):
@@ -17,13 +17,20 @@ class LvlupGames(WebsiteSearch):
         return price
 
     def get_text(self, html):
-        return super(LvlupGames, self).get_text(html, 'hidden-product-link')
+        try:
+            text = html.find('div', attrs={'class': 'productitem--info'}).find('a')
+            link = self.website_address
+            link += text['href']
+        except AttributeError:
+            return '', 'No Item'
+
+        return link, text.contents[0]
 
     def search(self):
         return super(LvlupGames, self).search('q', '/search')
 
     def results(self, count, results_html):
-        return super(LvlupGames, self).results('container', 'product-wrap', count, results_html)
+        return super(LvlupGames, self).results('container', 'productitem', count, results_html)
 
 
 if __name__ == "__main__":
